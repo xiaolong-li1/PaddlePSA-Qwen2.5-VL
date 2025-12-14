@@ -4,7 +4,7 @@
 # 核心框架
 paddlepaddle-gpu==3.2.2
 paddlenlp==3.0.0b4
-torch==2.9.1+cu126
+torch
 triton==3.5.1
 numpy==1.23.5
 
