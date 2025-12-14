@@ -89,7 +89,7 @@ model = QwenVLInference(use_psa=True, psa_config=psa_config)
 | --use-psa | 启用 PSA 稀疏注意力 | False |
 | --query-block | PSA query block size | 128 |
 | --xattn-stride | PSA xattn stride | 16 |
-| --cache-dir | 模型缓存目录 | /workspace/PSA_paddle/model_cache |
+| --cache-dir | 模型缓存目录 | ./model_cache |
 
 ## 视频输入注意事项
 

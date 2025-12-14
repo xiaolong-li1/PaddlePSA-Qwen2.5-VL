@@ -6,18 +6,24 @@ Qwen2.5-VL PSA Attention Implementation for PaddlePaddle
 import math
 from typing import Optional, Tuple
 
+import os
+import sys
+
+# 相对路径导入
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_project_root = os.path.dirname(_current_dir)
+sys.path.insert(0, _project_root)
+sys.path.insert(0, os.path.join(_current_dir, 'PaddleMIX'))
+
 import paddle
 import paddle.nn as nn
 import paddle.nn.functional as F
 from paddlenlp.transformers.linear_utils import Linear
 
 # 导入PSA模块
-import sys
-sys.path.insert(0, '/workspace/PSA_paddle')
 from psa_paddle import AttentionConfig, PyramidAdaptiveBlockSparseAttnTrain
 
 # 导入PaddleMIX的原始函数
-sys.path.insert(0, '/workspace/PSA_paddle/qwen2.5-vl/PaddleMIX')
 from paddlemix.models.qwen2_5_vl.modeling_qwen2_5_vl import (
     apply_multimodal_rotary_pos_emb,
     repeat_kv,
@@ -35,7 +41,7 @@ class Qwen2_5_VLPSAAttention(nn.Layer):
         config,
         layer_idx: Optional[int] = None,
         psa_config: Optional[AttentionConfig] = None,
-        log_dir: str = "/workspace/PSA_paddle/PSA_Log",
+        log_dir: str = os.path.join(_project_root, "PSA_Log"),
     ):
         super().__init__()
         self.config = config

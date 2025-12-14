@@ -15,9 +15,13 @@ logging.getLogger("paddlemix").setLevel(logging.ERROR)
 
 import argparse
 import sys
+import os
 
-sys.path.insert(0, '/workspace/PSA_paddle')
-sys.path.insert(0, '/workspace/PSA_paddle/qwen2.5-vl/PaddleMIX')
+# 相对路径导入
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_project_root = os.path.dirname(_current_dir)
+sys.path.insert(0, _project_root)
+sys.path.insert(0, os.path.join(_current_dir, 'PaddleMIX'))
 
 import paddle
 
@@ -57,8 +61,8 @@ def get_psa_stats(model):
 class QwenVLInference:
     """Qwen2.5-VL 推理类 (PaddlePaddle)"""
 
-    DEFAULT_CACHE_DIR = "/workspace/PSA_paddle/model_cache"
-    DEFAULT_LOG_DIR = "/workspace/PSA_paddle/PSA_Log"
+    DEFAULT_CACHE_DIR = os.path.join(_project_root, "model_cache")
+    DEFAULT_LOG_DIR = os.path.join(_project_root, "PSA_Log")
 
     def __init__(
         self,
