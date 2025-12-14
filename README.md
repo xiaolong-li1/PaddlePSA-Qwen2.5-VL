@@ -30,8 +30,6 @@ PSA (Pyramid Sparse Attention) 是一种金字塔式稀疏注意力机制，通�
 
 ## 安装
 
-### 使用 uv（推荐）
-
 ```bash
 # 创建虚拟环境
 uv venv --python 3.11
@@ -43,21 +41,10 @@ uv pip install -r requirements.txt
 # 安装 PSA 模块
 uv pip install -e .
 
-# 安装 PaddleMIX（项目已包含，从本地安装）
-uv pip install -e qwen2.5-vl/PaddleMIX
-uv pip install -e qwen2.5-vl/PaddleMIX/ppdiffusers
-```
-
-### 手动安装
-
-```bash
-pip install paddlepaddle-gpu==3.2.2 triton torch numpy
-pip install -r requirements.txt
-pip install -e .
-
-# 安装 PaddleMIX
-pip install -e qwen2.5-vl/PaddleMIX
-pip install -e qwen2.5-vl/PaddleMIX/ppdiffusers
+# 安装 PaddleMIX（项目已包含）
+cd qwen2.5-vl/PaddleMIX
+sh build_env.sh
+cd ../..
 ```
 
 ## 快速开始
