@@ -2,28 +2,32 @@
 
 基于 PaddlePaddle 的 Qwen2.5-VL 多模态模型推理，支持 PSA 稀疏注意力加速。
 
+## 支持的模型
+
+| 模型 | 参数量 | 推荐显存 |
+|------|--------|----------|
+| `Qwen/Qwen2.5-VL-3B-Instruct` | 3B | < 16GB |
+| `Qwen/Qwen2.5-VL-7B-Instruct` | 7B | >= 24GB |
+
 ## 快速开始
 
 ### 命令行推理
 
 ```bash
-# 图像推理
+# 使用 3B 模型（推荐，显存占用更少）
 python infer_qwen2_5_vl_psa.py --type image \
+    --model Qwen/Qwen2.5-VL-3B-Instruct \
     --input "https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/demo.jpeg" \
     --prompt "请描述这张图片"
 
-# 使用 PSA 稀疏注意力
+# 使用 7B 模型（默认）
 python infer_qwen2_5_vl_psa.py --type image \
     --input "https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/demo.jpeg" \
     --prompt "请描述这张图片" --use-psa
 
 # 视频推理 (使用本地文件)
 python infer_qwen2_5_vl_psa.py --type video \
-    --input "./video.mp4" \
-    --prompt "请描述这个视频" --fps 0.5
-
-# 视频推理 + PSA
-python infer_qwen2_5_vl_psa.py --type video \
+    --model Qwen/Qwen2.5-VL-3B-Instruct \
     --input "./video.mp4" \
     --prompt "请描述这个视频" --fps 0.5 --use-psa
 ```
@@ -33,9 +37,9 @@ python infer_qwen2_5_vl_psa.py --type video \
 ```python
 from infer_qwen2_5_vl_psa import QwenVLInference
 
-# 初始化模型
+# 初始化 3B 模型
 model = QwenVLInference(
-    model_name="Qwen/Qwen2.5-VL-7B-Instruct",
+    model_name="Qwen/Qwen2.5-VL-3B-Instruct",
     dtype="bfloat16",
     use_psa=True,
 )

@@ -57,9 +57,21 @@ cd ../..
 
 ## 快速开始
 
+支持的模型：
+- `Qwen/Qwen2.5-VL-3B-Instruct` (3B 参数，推荐显存 < 16GB)
+- `Qwen/Qwen2.5-VL-7B-Instruct` (7B 参数，默认)
+
 ### 图像理解
 
 ```bash
+# 使用 3B 模型
+python qwen2.5-vl/infer_qwen2_5_vl_psa.py --type image \
+    --model Qwen/Qwen2.5-VL-3B-Instruct \
+    --input "./image.jpg" \
+    --prompt "请描述这张图片" \
+    --use-psa
+
+# 使用 7B 模型（默认）
 python qwen2.5-vl/infer_qwen2_5_vl_psa.py --type image \
     --input "./image.jpg" \
     --prompt "请描述这张图片" \
@@ -71,6 +83,7 @@ python qwen2.5-vl/infer_qwen2_5_vl_psa.py --type image \
 ```bash
 # 视频需要本地文件（decord 不支持 HTTPS）
 python qwen2.5-vl/infer_qwen2_5_vl_psa.py --type video \
+    --model Qwen/Qwen2.5-VL-3B-Instruct \
     --input "./video.mp4" \
     --prompt "请描述这个视频" \
     --fps 1.0 --use-psa
@@ -81,8 +94,11 @@ python qwen2.5-vl/infer_qwen2_5_vl_psa.py --type video \
 ```python
 from infer_qwen2_5_vl_psa import QwenVLInference
 
-# 初始化（启用 PSA）
-model = QwenVLInference(use_psa=True)
+# 初始化 3B 模型（启用 PSA）
+model = QwenVLInference(
+    model_name="Qwen/Qwen2.5-VL-3B-Instruct",
+    use_psa=True
+)
 
 # 图像推理
 result = model.inference_image("./image.jpg", "请描述这张图片")
@@ -173,11 +189,14 @@ config = AttentionConfig(
 ## 引用
 
 ```bibtex
-@article{li2025pyramid,
-  title={Pyramid Sparse Attention},
-  author={Li, Xiaolong and Gu, Youping and Lin, Xi and Wang, Weijie and Zhuang, Bohan},
-  journal={arXiv preprint arXiv:2512.04025},
-  year={2025}
+@misc{li2025psapyramidsparseattention,
+  title={PSA: Pyramid Sparse Attention for Efficient Video Understanding and Generation},
+  author={Xiaolong Li and Youping Gu and Xi Lin and Weijie Wang and Bohan Zhuang},
+  year={2025},
+  eprint={2512.04025},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2512.04025},
 }
 ```
 
