@@ -93,11 +93,12 @@ class QwenVLInference:
         paddle.set_default_dtype(self.dtype)
 
         # 加载模型
+        # 使用 sdpa 让 Vision Encoder 高效运行，PSA 只替换语言模型的注意力层
         print("[Loading] Model...")
         self.model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
             model_name,
             dtype=self.dtype,
-            attn_implementation="eager",
+            attn_implementation="sdpa",  # Vision Encoder 用 sdpa，语言模型后续被 PSA 替换
             cache_dir=self.cache_dir,
         )
 
