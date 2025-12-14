@@ -80,7 +80,12 @@ class QwenVLInference:
 
         # 数据类型
         if dtype == "bfloat16":
-            self.dtype = "bfloat16" if paddle.amp.is_bfloat16_supported() else "float32"
+            if paddle.amp.is_bfloat16_supported():
+                self.dtype = "bfloat16"
+            else:
+                # V100 等不支持 bfloat16 的 GPU，使用 float16
+                print("[Warning] bfloat16 not supported, falling back to float16")
+                self.dtype = "float16"
         else:
             self.dtype = dtype
 
