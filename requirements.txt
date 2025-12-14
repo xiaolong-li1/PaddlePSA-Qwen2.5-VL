@@ -4,8 +4,6 @@
 # ============ 核心框架 (固定版本) ============
 paddlepaddle-gpu==3.2.2
 paddlenlp==3.0.0b4
-paddlemix==3.1.0
-ppdiffusers==0.30.0
 triton==3.5.1
 numpy==1.23.5
 

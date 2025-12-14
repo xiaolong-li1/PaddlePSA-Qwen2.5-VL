@@ -51,5 +51,3 @@ Thumbs.db
 # Jupyter
 .ipynb_checkpoints/
 
-# PaddleMIX (作为子模块或单独管理)
-qwen2.5-vl/PaddleMIX/

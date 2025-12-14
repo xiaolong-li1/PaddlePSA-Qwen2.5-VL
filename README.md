@@ -43,8 +43,9 @@ uv pip install -r requirements.txt
 # 安装 PSA 模块
 uv pip install -e .
 
-# 安装 PaddleMIX (Qwen2.5-VL 需要)
+# 安装 PaddleMIX（项目已包含，从本地安装）
 uv pip install -e qwen2.5-vl/PaddleMIX
+uv pip install -e qwen2.5-vl/PaddleMIX/ppdiffusers
 ```
 
 ### 手动安装
@@ -53,6 +54,10 @@ uv pip install -e qwen2.5-vl/PaddleMIX
 pip install paddlepaddle-gpu==3.2.2 triton torch numpy
 pip install -r requirements.txt
 pip install -e .
+
+# 安装 PaddleMIX
+pip install -e qwen2.5-vl/PaddleMIX
+pip install -e qwen2.5-vl/PaddleMIX/ppdiffusers
 ```
 
 ## 快速开始
