@@ -1,0 +1,57 @@
+# PSA Paddle 依赖
+# 使用 uv pip install -r requirements.txt 安装
+
+# 核心框架
+paddlepaddle-gpu==3.2.2
+paddlenlp==3.0.0b4
+torch==2.9.1+cu126
+triton==3.5.1
+numpy==1.23.5
+
+# 视觉处理
+pillow==12.0.0
+opencv-python==4.11.0.86
+decord==0.6.0
+av==13.1.0
+scikit-image==0.24.0
+
+# 音频处理
+librosa==0.11.0
+soundfile==0.13.1
+
+# NLP 相关
+tokenizers==0.21.4
+sentencepiece==0.2.1
+tiktoken==0.12.0
+regex==2025.11.3
+ftfy==6.3.1
+
+# 模型相关
+safetensors==0.6.2
+huggingface-hub==0.36.0
+einops==0.8.1
+
+# 数据处理
+pandas==2.3.3
+scipy==1.15.3
+datasets==4.4.1
+pyarrow==22.0.0
+
+# 工具
+tqdm==4.67.1
+pyyaml==6.0.3
+requests==2.32.5
+filelock==3.20.0
+packaging==25.0
+
+# 可视化
+matplotlib==3.10.7
+visualdl==2.5.3
+
+# Web (可选)
+fastapi==0.123.9
+uvicorn==0.38.0
+
+# ONNX (可选)
+onnx==1.20.0
+paddle2onnx==2.0.1

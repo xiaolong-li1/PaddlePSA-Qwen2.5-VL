@@ -1,0 +1,55 @@
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# 模型缓存
+model_cache/
+
+# 日志
+PSA_Log/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 视频/大文件
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# PaddleMIX (作为子模块或单独管理)
+qwen2.5-vl/PaddleMIX/
