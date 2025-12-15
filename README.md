@@ -139,30 +139,52 @@ PaddlePSA-Qwen2.5-VL/
 
 ## PSA 配置
 
+PSA 采用 [X-Attention](https://github.com/mit-han-lab/x-attention) 的反对角线采样方法进行块重要性估计，通过稀疏采样快速估算每个 query-key 块对的注意力重要性。
+
 ```python
 from psa_paddle import AttentionConfig
 
 config = AttentionConfig(
-    query_block=128,           # Query 块大小
-    key_block=32,              # Key 块大小
-    mask_mode="energybound",   # 掩码模式: energybound | topk
-    mask_ratios={
-        1: (0.0, 0.6),         # 重要性 0~60% → 全分辨率
-        2: (0.6, 0.8),         # 重要性 60~80% → 2x池化
-        4: (0.8, 0.9),         # 重要性 80~90% → 4x池化
-        8: (0.9, 0.9),         # 重要性 90% → 8x池化
-        0: (0.9, 1.0),         # 重要性 90~100% → 跳过
+    # 基础配置
+    text_length=512,           # 文本 token 长度（文本区域始终保持全精度）
+    query_block=128,           # Query/Key 块大小（当前 Triton kernel 固定为 128）
+    warmup_steps=0,            # 预热步数（预热期间使用标准注意力）
+
+    # 块重要性估计参数 (X-Attention)
+    xattn_stride=16,           # 采样步长：每 stride 个位置采样一个
+    xattn_chunk_size=4096,     # 分块处理大小，用于控制显存
+
+    # 掩码配置
+    mask_mode="topk",          # 掩码模式: topk | energybound
+    mask_ratios={              # 金字塔层级分配比例
+        1: (0.0, 0.05),        # 重要性 Top 0~5% → 全分辨率 (1x)
+        2: (0.05, 0.15),       # 重要性 5~15% → 2x 池化
+        4: (0.15, 0.25),       # 重要性 15~25% → 4x 池化
+        8: (0.25, 0.5),        # 重要性 25~50% → 8x 池化
+        0: (0.5, 1.0),         # 重要性 50~100% → 跳过计算
     },
-    xattn_stride=16,           # 交叉注意力步长
+
+    # Key 相似度阈值（自适应池化级别选择）
+    sim_2x_threshold=0.75,     # 相邻 Key 相似度 > 0.75 时允许 2x 池化
+    sim_4x_threshold=0.7,      # Key 相似度 > 0.7 时允许 4x 池化
+    sim_8x_threshold=0.7,      # Key 相似度 > 0.7 时允许 8x 池化
 )
 ```
+
+### 块重要性估计 (X-Attention)
+
+块重要性估计采用 [X-Attention](https://github.com/mit-han-lab/x-attention) 的反对角线采样方法：
+
+- **原理**：对完整注意力矩阵进行稀疏采样，每隔 `xattn_stride` 个位置采样一个 query-key 对
+- **优势**：将 O(n²) 的重要性估计降低到 O(n²/stride²)，显著减少计算开销
+- **参数**：`xattn_stride=16` 表示采样密度为 1/16，在保持精度的同时大幅提升效率
 
 ### 掩码模式
 
 | 模式 | 说明 |
 |------|------|
-| `energybound` | 基于能量阈值，相似度指标更好 |
-| `topk` | 基于 Top-K 选择，极端稀疏度下更稳定 |
+| `topk` | 基于 Top-K 排序选择，极端稀疏度下更稳定（默认） |
+| `energybound` | 基于累积能量阈值，相似度指标更好 |
 
 ---
 
