@@ -72,7 +72,8 @@ onnx
 paddle2onnx
 
 # ============ 其他 ============
-aistudio-sdk
+aistudio-sdk==0.2.6
+tensorboardX
 bce-python-sdk
 numba
 sympy
